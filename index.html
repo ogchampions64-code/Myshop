@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Orbite – La boutique d’IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f1ff; --surface:#ffffffcc; --ink:#1d1840; --muted:#6a6590; --line:#d9d3f5;
+  --a:#6c5cff; --b:#ff8a5c; --c:#2fd0b5; --glow:#6c5cff55; color-scheme:light;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg:#0f0c24;--surface:#1a1640cc;--ink:#f1eeff;--muted:#a49fd0;--line:#352f6b;--glow:#8d80ff66;color-scheme:dark}
+}
+:root[data-theme="dark"]{--bg:#0f0c24;--surface:#1a1640cc;--ink:#f1eeff;--muted:#a49fd0;--line:#352f6b;--glow:#8d80ff66;color-scheme:dark}
+*{box-sizing:border-box;margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh;overflow-x:hidden;position:relative}
+.orb{position:fixed;border-radius:50%;filter:blur(70px);opacity:.45;z-index:0;pointer-events:none;animation:drift 18s ease-in-out infinite alternate}
+.o1{width:46vmax;height:46vmax;background:var(--a);top:-18vmax;left:-12vmax}
+.o2{width:38vmax;height:38vmax;background:var(--b);bottom:-16vmax;right:-10vmax;animation-duration:23s}
+.o3{width:26vmax;height:26vmax;background:var(--c);top:35%;left:55%;opacity:.28;animation-duration:27s}
+@keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.18)}}
+main{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:28px 20px 140px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:44px}
+.logo{font-weight:800;font-size:1.35rem;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+.logo i{width:26px;height:26px;border-radius:50%;background:conic-gradient(var(--a),var(--b),var(--c),var(--a));animation:spin 6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+header span{color:var(--muted);font-size:.95rem}
+h1{font-size:clamp(2.1rem,6vw,4.2rem);line-height:1.02;letter-spacing:-.035em;font-weight:800;max-width:15ch}
+.sub{margin-top:16px;color:var(--muted);font-size:1.1rem;max-width:44ch;line-height:1.5}
+.hero>*{animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+.hero .sub{animation-delay:.12s}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}}
+
+.picker{margin:42px 0 34px;display:flex;flex-wrap:wrap;gap:22px;align-items:center;background:var(--surface);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:28px;padding:22px 26px}
+.picker h2{font-size:1.15rem;font-weight:600;flex:1 1 220px;line-height:1.35}
+.picker h2 small{display:block;color:var(--muted);font-weight:400;font-size:.9rem;margin-top:6px}
+.wheels{display:flex;gap:14px;position:relative}
+.band{position:absolute;left:0;right:0;top:48px;height:48px;border-radius:14px;background:linear-gradient(90deg,var(--a),var(--b));opacity:.16;pointer-events:none}
+.wheel{width:130px;height:144px;overflow-y:scroll;scroll-snap-type:y mandatory;padding:48px 0;perspective:400px;scrollbar-width:none;position:relative;-webkit-mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent);mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent)}
+.wheel::-webkit-scrollbar{display:none}
+.it{height:48px;line-height:48px;text-align:center;font-weight:600;font-size:1.25rem;scroll-snap-align:center;cursor:pointer;user-select:none;will-change:transform}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.card{position:relative;background:var(--surface);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1.5px solid var(--line);border-radius:30px;padding:28px 26px;cursor:pointer;transition:transform .45s cubic-bezier(.2,.8,.2,1),border-color .3s,box-shadow .45s;animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+.card:nth-child(2){animation-delay:.1s}.card:nth-child(3){animation-delay:.2s}
+.card:hover{transform:translateY(-6px)}
+.card.on{border-color:var(--a);box-shadow:0 18px 60px var(--glow);transform:translateY(-10px)}
+.card .ic{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;font-size:1.6rem;margin-bottom:18px;background:linear-gradient(135deg,var(--g1),var(--g2))}
+.card h3{font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
+.card p{color:var(--muted);margin-top:4px;font-size:.95rem}
+.price{margin:22px 0 4px;font-size:2.7rem;font-weight:800;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.unit{color:var(--muted);font-size:.9rem;min-height:1.3em}
+ul{list-style:none;padding:0;margin-top:20px;display:grid;gap:10px}
+li{padding-left:28px;position:relative;font-size:.97rem}
+li::before{content:"";position:absolute;left:0;top:.2em;width:17px;height:17px;border-radius:50%;background:var(--c);clip-path:polygon(0 50%,12% 38%,38% 62%,88% 8%,100% 22%,38% 92%)}
+.tag{position:absolute;top:20px;right:20px;background:var(--b);color:#fff;font-size:.8rem;font-weight:600;padding:5px 12px;border-radius:99px}
+
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:5;padding:14px 20px calc(14px + env(safe-area-inset-bottom,0px));background:var(--surface);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--line)}
+.bar-in{max-width:1040px;margin:0 auto;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.sum{flex:1 1 220px}
+.sum b{display:block;font-size:1.05rem}
+.sum span{color:var(--muted);font-size:.9rem}
+.total{font-size:2rem;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.save{color:var(--c);font-weight:600;font-size:.9rem;min-height:1.3em;transition:opacity .3s}
+button{font:inherit;font-weight:600;color:#fff;border:0;border-radius:99px;padding:15px 30px;cursor:pointer;background:linear-gradient(120deg,var(--a),var(--b));background-size:160% 100%;transition:background-position .5s,transform .2s,box-shadow .3s;box-shadow:0 8px 28px var(--glow)}
+button:hover{background-position:100% 0;transform:scale(1.04)}
+button:active{transform:scale(.97)}
+:focus-visible{outline:3px solid var(--a);outline-offset:3px}
+.toast{position:fixed;left:50%;bottom:110px;transform:translate(-50%,30px);opacity:0;background:var(--ink);color:var(--bg);padding:14px 24px;border-radius:99px;font-weight:600;z-index:9;transition:.5s cubic-bezier(.2,.8,.2,1);pointer-events:none;text-align:center;max-width:90vw}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.bump{animation:bump .4s}
+@keyframes bump{40%{transform:scale(1.07)}}
+@media (prefers-reduced-motion:reduce){*,.orb{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+<main>
+  <header><div class="logo"><i></i>Orbite</div><span>La boutique d’IA</span></header>
+
+  <section class="hero">
+    <h1>Votre IA, payée au rythme qui vous va.</h1>
+    <p class="sub">Tournez les roues pour choisir la durée : le prix se met à jour en direct.</p>
+  </section>
+
+  <section class="picker" aria-label="Choix de la durée">
+    <h2>Combien de temps ?<small>Faites défiler ou touchez une valeur.</small></h2>
+    <div class="wheels">
+      <div class="band"></div>
+      <div class="wheel" id="wQty" aria-label="Quantité"></div>
+      <div class="wheel" id="wPer" aria-label="Période"></div>
+    </div>
+  </section>
+
+  <section class="grid" id="grid"></section>
+</main>
+
+<div class="bar">
+  <div class="bar-in">
+    <div class="sum"><b id="sName"></b><span id="sDet"></span><div class="save" id="sSave"></div></div>
+    <div class="total" id="sTotal">0 €</div>
+    <button id="buy">Commander</button>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+var PLANS=[
+  {name:"Éclair",emoji:"⚡",desc:"Pour démarrer en douceur",m:9,g:["#ffd36e","#ff8a5c"],f:["Assistant de chat","50 requêtes par jour","Réponses rapides"]},
+  {name:"Pulsar",emoji:"🌀",desc:"Le choix des créateurs",m:29,g:["#8d80ff","#c9a0ff"],f:["Chat et génération d’images","500 requêtes par jour","Analyse de documents"],tag:"Populaire"},
+  {name:"Nova",emoji:"🚀",desc:"Sans aucune limite",m:79,g:["#2fd0b5","#6c5cff"],f:["Tout illimité","Agents autonomes","Support prioritaire"]}
+];
+var PERIODS=[
+  {one:"jour",many:"jours",max:30},
+  {one:"mois",many:"mois",max:12},
+  {one:"an",many:"ans",max:5}
+];
+var st={plan:1,per:1,qty:3};
+var fmt=new Intl.NumberFormat("fr-FR",{style:"currency",currency:"EUR"});
+
+function unit(p,per){
+  if(per===0) return Math.max(0.5,p.m/30*1.6);
+  if(per===1) return p.m;
+  return p.m*12*0.8;
+}
+function total(p){return unit(p,st.per)*st.qty}
+function label(){var P=PERIODS[st.per];return st.qty+" "+(st.qty>1?P.many:P.one)}
+function unitLabel(p){return fmt.format(unit(p,st.per))+" / "+PERIODS[st.per].one}
+
+function tween(el,to){
+  var from=el._v||0;el._v=to;
+  cancelAnimationFrame(el._r);
+  var t0=performance.now(),d=550;
+  (function step(t){
+    var k=Math.min(1,(t-t0)/d),e=1-Math.pow(1-k,4);
+    el.textContent=fmt.format(from+(to-from)*e);
+    if(k<1)el._r=requestAnimationFrame(step);
+  })(t0);
+}
+
+function wheel(el,items,start,cb){
+  var H=48;
+  el.innerHTML=items.map(function(t){return '<div class="it">'+t+'</div>'}).join("");
+  var its=[].slice.call(el.children),idx=start,tick=false;
+  function paint(){
+    tick=false;
+    var c=el.scrollTop/H;
+    its.forEach(function(it,i){
+      var d=i-c,a=Math.abs(d);
+      it.style.transform="rotateX("+(-d*30)+"deg) scale("+(1-Math.min(a,2)*.12)+")";
+      it.style.opacity=Math.max(.15,1-a*.45);
+    });
+    var n=Math.max(0,Math.min(its.length-1,Math.round(c)));
+    if(n!==idx){idx=n;cb(n)}
+  }
+  el.onscroll=function(){if(!tick){tick=true;requestAnimationFrame(paint)}};
+  its.forEach(function(it,i){it.onclick=function(){el.scrollTo({top:i*H,behavior:"smooth"})}});
+  el.scrollTop=start*H;paint();
+}
+
+function qtyWheel(){
+  var max=PERIODS[st.per].max,a=[];
+  for(var i=1;i<=max;i++)a.push(i);
+  st.qty=Math.min(st.qty,max);
+  wheel(document.getElementById("wQty"),a,st.qty-1,function(n){st.qty=n+1;update()});
+}
+
+function build(){
+  document.getElementById("grid").innerHTML=PLANS.map(function(p,i){
+    return '<article class="card" tabindex="0" data-i="'+i+'" style="--g1:'+p.g[0]+';--g2:'+p.g[1]+'">'
+     +(p.tag?'<span class="tag">'+p.tag+'</span>':'')
+     +'<div class="ic">'+p.emoji+'</div><h3>'+p.name+'</h3><p>'+p.desc+'</p>'
+     +'<div class="price" data-p="'+i+'">0 €</div><div class="unit" data-u="'+i+'"></div>'
+     +'<ul>'+p.f.map(function(x){return '<li>'+x+'</li>'}).join("")+'</ul></article>';
+  }).join("");
+  [].forEach.call(document.querySelectorAll(".card"),function(c){
+    function pick(){st.plan=+c.dataset.i;update(true)}
+    c.onclick=pick;
+    c.onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();pick()}};
+  });
+}
+
+function update(bump){
+  PLANS.forEach(function(p,i){
+    tween(document.querySelector('[data-p="'+i+'"]'),total(p));
+    document.querySelector('[data-u="'+i+'"]').textContent=unitLabel(p)+(st.qty>1?" × "+st.qty:"");
+  });
+  [].forEach.call(document.querySelectorAll(".card"),function(c){c.classList.toggle("on",+c.dataset.i===st.plan)});
+  var p=PLANS[st.plan],t=total(p);
+  document.getElementById("sName").textContent="Forfait "+p.name;
+  document.getElementById("sDet").textContent=label()+" · "+unitLabel(p);
+  tween(document.getElementById("sTotal"),t);
+  var days=st.per===1?30*st.qty:st.per===2?360*st.qty:0;
+  var s=days?unit(p,0)*days-t:0;
+  document.getElementById("sSave").textContent=s>0.5?"Vous économisez "+fmt.format(s)+" par rapport au tarif au jour":"";
+  var tt=document.getElementById("sTotal");tt.classList.remove("bump");void tt.offsetWidth;tt.classList.add("bump");
+}
+
+build();
+wheel(document.getElementById("wPer"),PERIODS.map(function(p){return p.one}),st.per,function(n){st.per=n;qtyWheel();update()});
+qtyWheel();
+update();
+
+document.getElementById("buy").onclick=async function(){
+  var btn=this,t=document.getElementById("toast");
+  function say(m){t.textContent=m;t.classList.add("show");clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove("show")},3500)}
+  btn.disabled=true;btn.textContent="Redirection…";
+  try{
+    var r=await fetch("/create-checkout-session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({plan:st.plan,per:st.per,qty:st.qty})});
+    var d=await r.json();
+    if(!r.ok||!d.url)throw new Error(d.error||"Erreur");
+    location.href=d.url;
+  }catch(e){say("Paiement impossible : "+e.message);btn.disabled=false;btn.textContent="Commander"}
+};
+var q=new URLSearchParams(location.search);
+if(q.get("paiement")==="ok")setTimeout(function(){var t=document.getElementById("toast");t.textContent="Paiement réussi, merci !";t.classList.add("show");setTimeout(function(){t.classList.remove("show")},4000)},600);
+if(q.get("paiement")==="annule")setTimeout(function(){var t=document.getElementById("toast");t.textContent="Paiement annulé.";t.classList.add("show");setTimeout(function(){t.classList.remove("show")},4000)},600);
+</script>
+</body>
+</html>
